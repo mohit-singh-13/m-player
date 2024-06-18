@@ -16,32 +16,12 @@ exports.login = async (request, response) => {
             })
         }
 
-        // console.log("User document : ", user);
         const hashedPassword = user.password;
 
-        const payload = {
-            id: user._id,
-        }
-
-        const JWT_SECRET = process.env.JWT_SECRET;
-
         if (await matchPassword(password, hashedPassword)) {
-            
-            let token = jwt.sign(payload, JWT_SECRET, {
-                "expiresIn": "2h"
-            });
 
-            // user._doc.token = token;
-            const cookieOptions = {
-                httpOnly: true, // Cookie is not accessible via JavaScript
-                sameSite: 'None', // Allow cross-origin cookies
-                secure: true, // Cookie only sent over HTTPS
-                maxAge: 24 * 60 * 60 * 1000, // 1 day expiry time
-            };
-
-            return response.cookie("token", token, cookieOptions).json({
+            return response.json({
                 success: true,
-                // user,
                 message: "You're logged in successfully"
             })
         } else {

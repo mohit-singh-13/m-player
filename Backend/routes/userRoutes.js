@@ -8,11 +8,4 @@ userRoutes.post("/login", login);
 
 userRoutes.post("/signup", signup);
 
-userRoutes.post("/verify", auth, (request, response) => {
-    return response.json({
-        success: true,
-        message: "You're a authenticated user"
-    })
-});
-
 module.exports = userRoutes;

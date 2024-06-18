@@ -30,7 +30,6 @@ const Form = ({ flag, btn }) => {
         if (flag && formData.password !== formData.confirmPassword) {
             toast.error("Passwords don't match", {
                 style: {
-                    // border: 'solid black 1px',
                     background: "black",
                     color: "white",
                 }   
@@ -39,11 +38,8 @@ const Form = ({ flag, btn }) => {
         }
 
         const response = await fetchData(formData, btn);
-        // console.log(response);
 
         if (!flag && response?.success) {
-            // setToken(response.user.token);
-
             setLogin(true);
 
             navigation("/");
