@@ -27,14 +27,25 @@ const Form = ({ flag, btn }) => {
 
     const clickHandler = async () => {
 
-        if (flag && formData.password !== formData.confirmPassword) {
-            toast.error("Passwords don't match", {
-                style: {
-                    background: "black",
-                    color: "white",
-                }   
-            });
-            return;
+        if (flag) {
+            if (formData.password !== formData.confirmPassword) {
+                toast.error("Passwords don't match", {
+                    style: {
+                        background: "black",
+                        color: "white",
+                    }   
+                });
+                return;
+            }
+            if (formData.name == "" || formData.email == "" || formData.password == "") {
+                toast.error("Please fill all the fields carefully", {
+                    style: {
+                        background: "black",
+                        color: "white",
+                    }   
+                });
+                return;
+            }
         }
 
         const response = await fetchData(formData, btn);
@@ -42,12 +53,50 @@ const Form = ({ flag, btn }) => {
         if (!flag && response?.success) {
             setLogin(true);
 
+            toast.success(response.message, {
+                style: {
+                    background: "black",
+                    color: "white",
+                }  
+            });
+
             navigation("/");
+        } else if (!flag) {
+            toast.error(response.message, {
+                style: {
+                    background: "black",
+                    color: "white",
+                }  
+            });
+        }
+
+        if (flag && response?.success) {
+            toast.success(response.message, {
+                style: {
+                    background: "black",
+                    color: "white",
+                }
+            });
+        } else if (flag) {
+            toast.error(response.message, {
+                style: {
+                    background: "black",
+                    color: "white",
+                }  
+            });
+        }
+    }
+
+    const keyDownHandler = (event) => {
+        if (event.key == "Enter") {
+            // console.log(event.key);
+            event.preventDefault();
+            clickHandler();
         }
     }
 
     return (
-        <div className="w-[650px] mx-auto border flex flex-col">
+        <div className="w-[650px] mx-auto flex flex-col h-[70vh] justify-center gap-[1rem]">
             <Box
                 component="form"
                 sx={{
@@ -66,6 +115,7 @@ const Form = ({ flag, btn }) => {
                             fullWidth
                             onChange={changeHandler}
                             name="name"
+                            onKeyDown={keyDownHandler}
                         />
                     }
                 </div>
@@ -77,6 +127,7 @@ const Form = ({ flag, btn }) => {
                         fullWidth
                         onChange={changeHandler}
                         name="email"
+                        onKeyDown={keyDownHandler}
                     />
                 </div>
                 <div>
@@ -89,6 +140,7 @@ const Form = ({ flag, btn }) => {
                         name="password"
                         type="password"
                         autoComplete=''
+                        onKeyDown={keyDownHandler}
                     />
                 </div>
                 <div>
@@ -103,11 +155,12 @@ const Form = ({ flag, btn }) => {
                             name="confirmPassword"
                             type="password"
                             autoComplete=''
+                            onKeyDown={keyDownHandler}
                         />
                     }
                 </div>
             </Box>
-            <Button variant="contained" onClick={clickHandler}>{btn}</Button>
+            <Button variant="contained" onClick={clickHandler} size="large">{btn}</Button>
         </div>
     )
 }

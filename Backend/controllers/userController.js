@@ -27,7 +27,7 @@ exports.login = async (request, response) => {
         } else {
             return response.json({
                 success: false,
-                message: "Please enter correct password"
+                message: "Username or password don't match"
             })
         }
     } catch(err) {

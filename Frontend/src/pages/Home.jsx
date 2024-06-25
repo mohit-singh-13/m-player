@@ -1,23 +1,96 @@
-import { useContext, useEffect } from "react"
+import { useContext, useEffect, useRef, useState } from "react"
 import { AppContext } from "../context/AppContext"
+import { fetchSongs } from "../utils/fetchData";
+import Navbar from "../components/Navbar";
+import Box from '@mui/material/Box';
+import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
+import Cards from "../components/Cards";
+import Spinner from "../components/Spinner";
 
 const Home = () => {
+    const { login, navigation, term, setTerm } = useContext(AppContext);
 
-    const { login, navigation } = useContext(AppContext);
-    // console.log(token);    
+    const [loadCards, setLoadCards] = useState(false);
+
+    const [allSongs, setAllSongs] = useState([]);
 
     useEffect(() => {
         if (!login) {
             navigation("/login");
+        } else {
+            fetchingSongs();
         }
-    }, [login])
+
+    }, [term, login]);
+
+    const fetchingSongs = async () => {
+        setLoadCards(false);
+
+        const response = await fetchSongs(term);
+
+        setAllSongs(response.results);
+        // console.log("Data : ", allSongs);
+
+        setLoadCards(true);
+    }
+
+    const searchData = useRef();
+
+    const clickHandler = () => {
+        setTerm(searchData.current.value);
+        // fetchingSongs();
+    }
+
+    const keyDownHandler = (event) => {
+        // console.log(event.key);
+        if(event.key == 'Enter') {
+            event.preventDefault();
+            setTerm(searchData.current.value);
+        }
+    }
 
     return (
-        <div>
+        <div className="flex flex-col gap-5 bg-[#f5f5f5] text-[#212121] h-max">
             <div>
-                M-Player
+                <Navbar btn={"logout"} />
             </div>
 
+            <div className="w-11/12 max-w-[1300px] mx-auto">
+                <Box
+                    component="form"
+                    sx={{
+                        '& > :not(style)': { m: 1, width: '500', maxWidth: "91%" },
+                    }}
+                    noValidate
+                    autoComplete="off"
+                    className="flex"
+                >
+                    <TextField
+                        id="outlined-basic"
+                        label="Search"
+                        variant="outlined"
+                        fullWidth
+                        name="search"
+                        inputRef={searchData}
+                        onKeyDown={keyDownHandler} />
+
+                    <Button variant="contained" size="large" onClick={clickHandler}>Search</Button>
+                </Box>
+            </div>
+
+            <div>
+                {
+                    loadCards &&
+                    <Cards songs={allSongs} />
+                }
+                {
+                    !loadCards &&
+                    <div className="h-screen flex justify-center items-center">
+                        <Spinner />
+                    </div>
+                }
+            </div>
 
         </div>
     )
