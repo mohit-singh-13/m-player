@@ -7,7 +7,7 @@ require("dotenv").config();
 const cookieParser = require("cookie-parser");
 
 const corsOptions = {
-    origin: 'http://localhost:5173', // Your frontend URL
+    origin: 'https://ms-m-player.vercel.app/', // Your frontend URL
     methods: ['GET', 'POST'],
     credentials: true, // Allow credentials (cookies) to be sent
     allowedHeaders: ['Content-Type', 'Authorization'],
