@@ -8,7 +8,7 @@ const Player = () => {
 
     useEffect(() => {
         if (!login) {
-            navigation("/login");
+            navigation("/");
         }
     })
 

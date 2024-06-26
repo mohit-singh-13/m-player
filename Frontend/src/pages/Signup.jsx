@@ -5,10 +5,14 @@ import { AppContext } from "../context/AppContext"
 
 const Signup = () => {
 
-    const { btn, setBtn } = useContext(AppContext);
+    const { btn, setBtn, navigation } = useContext(AppContext);
 
     useEffect(() => {
-        setBtn("signup");
+        if (document.cookie.substring(6) === "") {
+            setBtn("signup");
+        } else {
+            navigation("/");
+        }
     }, [btn]);
 
     return (

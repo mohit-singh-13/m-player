@@ -20,7 +20,23 @@ exports.login = async (request, response) => {
 
         if (await matchPassword(password, hashedPassword)) {
 
-            return response.json({
+            const JWT_SECRET = process.env.JWT_SECRET;
+
+            const payload = {
+                email: user.email
+            };
+
+            let token = jwt.sign(payload, JWT_SECRET, {
+                expiresIn: "1h"
+            })
+
+            const options = {
+                expires: new Date(Date.now() + 60*60*1000),
+                // httpOnly: true,
+                secure: true
+            }
+
+            return response.cookie("token", token, options).json({
                 success: true,
                 message: "You're logged in successfully"
             })
@@ -55,11 +71,9 @@ exports.signup = async (request, response) => {
         const existingUser = await userModel.findOne({email});
 
         if (existingUser) {
-            console.log("User already exists");
-            
             return response.json({
                 success: false,
-                message: "User already exists"
+                message: "Email is already registered"
             })
         }
 
@@ -78,4 +92,10 @@ exports.signup = async (request, response) => {
             message: "We are facing some issues. Please try again later. Sorry for inconvenience!!!"
         })
     }
+}
+
+exports.logout = (request, response) => {
+    return response.cookie("token", "").json({
+        success: true
+    })
 }

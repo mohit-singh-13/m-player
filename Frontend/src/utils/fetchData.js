@@ -11,7 +11,6 @@ export const fetchData = async (formData, btn) => {
             withCredentials: true,
         });
 
-        // console.log(response);
         return response?.data;
 
     } catch(err) {
@@ -24,8 +23,6 @@ export const fetchSongs = async (term) => {
         const baseUrl = import.meta.env.VITE_SONG_API;
 
         const URL = `${baseUrl}&term=${term}`;
-        // console.log(term);
-        // console.log(URL);
 
         const response = await axios.get(URL);
         // console.log(response);

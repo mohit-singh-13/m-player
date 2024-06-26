@@ -7,6 +7,7 @@ import { AppContext } from '../context/AppContext';
 import toast from 'react-hot-toast';
 
 const Form = ({ flag, btn }) => {
+    
     const [formData, setFormData] = useState({
         name: "",
         email: "",
@@ -59,7 +60,7 @@ const Form = ({ flag, btn }) => {
                     color: "white",
                 }  
             });
-
+            
             navigation("/");
         } else if (!flag) {
             toast.error(response.message, {
@@ -77,6 +78,8 @@ const Form = ({ flag, btn }) => {
                     color: "white",
                 }
             });
+
+            setFormData({name: "", email: "", password: "", confirmPassword: ""});
         } else if (flag) {
             toast.error(response.message, {
                 style: {
@@ -89,7 +92,6 @@ const Form = ({ flag, btn }) => {
 
     const keyDownHandler = (event) => {
         if (event.key == "Enter") {
-            // console.log(event.key);
             event.preventDefault();
             clickHandler();
         }
@@ -116,6 +118,7 @@ const Form = ({ flag, btn }) => {
                             onChange={changeHandler}
                             name="name"
                             onKeyDown={keyDownHandler}
+                            value={formData.name}
                         />
                     }
                 </div>
@@ -128,6 +131,7 @@ const Form = ({ flag, btn }) => {
                         onChange={changeHandler}
                         name="email"
                         onKeyDown={keyDownHandler}
+                        value={formData.email}
                     />
                 </div>
                 <div>
@@ -141,6 +145,7 @@ const Form = ({ flag, btn }) => {
                         type="password"
                         autoComplete=''
                         onKeyDown={keyDownHandler}
+                        value={formData.password}
                     />
                 </div>
                 <div>
@@ -156,6 +161,7 @@ const Form = ({ flag, btn }) => {
                             type="password"
                             autoComplete=''
                             onKeyDown={keyDownHandler}
+                            value={formData.confirmPassword}
                         />
                     }
                 </div>

@@ -7,21 +7,38 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Cards from "../components/Cards";
 import Spinner from "../components/Spinner";
+import axios from "axios";
 
 const Home = () => {
-    const { login, navigation, term, setTerm } = useContext(AppContext);
+    const { login, navigation, term, setTerm, setLogin } = useContext(AppContext);
 
     const [loadCards, setLoadCards] = useState(false);
 
     const [allSongs, setAllSongs] = useState([]);
 
-    useEffect(() => {
-        if (!login) {
-            navigation("/login");
-        } else {
-            fetchingSongs();
-        }
+    const authenticate = async() => {
+        const URL = import.meta.env.VITE_AUTHENTICATE_URL;
+        
+        const token = document.cookie.substring(6);
 
+        const response = await axios.get(URL, {
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
+            }
+        });
+
+        if (response?.data?.success) {
+            setLogin(true);
+
+            fetchingSongs();
+        } else {
+            navigation("/login");
+        }
+    }
+
+    useEffect(() => {
+        authenticate();
     }, [term, login]);
 
     const fetchingSongs = async () => {
@@ -30,7 +47,6 @@ const Home = () => {
         const response = await fetchSongs(term);
 
         setAllSongs(response.results);
-        // console.log("Data : ", allSongs);
 
         setLoadCards(true);
     }
@@ -39,11 +55,9 @@ const Home = () => {
 
     const clickHandler = () => {
         setTerm(searchData.current.value);
-        // fetchingSongs();
     }
 
     const keyDownHandler = (event) => {
-        // console.log(event.key);
         if(event.key == 'Enter') {
             event.preventDefault();
             setTerm(searchData.current.value);

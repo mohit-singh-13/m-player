@@ -5,11 +5,12 @@ import Typography from '@mui/material/Typography';
 import { useContext } from 'react';
 import { AppContext } from '../context/AppContext';
 import toast from 'react-hot-toast';
+import axios from 'axios';
 
 const Navbar = ({btn}) => {
     const {navigation, setTerm, setLogin} = useContext(AppContext);
 
-    const clickHandler = () => {
+    const clickHandler = async() => {
         if (btn == "logout") {
             setLogin(false);
             toast.success("You're logged out successfully", {
@@ -18,7 +19,16 @@ const Navbar = ({btn}) => {
                     color: "white",
                 }
             });
-            navigation("/login");
+
+            const URL = import.meta.env.VITE_LOGOUT_URL;
+
+            const response = await axios.get(URL, {
+                withCredentials: true
+            });
+
+            if (response?.data?.success) {
+                navigation("/login");
+            }
         } else {
             navigation(`/${btn.toLowerCase()}`)
         }

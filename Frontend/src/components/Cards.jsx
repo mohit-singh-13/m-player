@@ -3,7 +3,6 @@ import Card from "./Card";
 import { useEffect } from "react";
 
 const Cards = ({songs}) => {
-    // console.log("CARDS ", songs);
 
     useEffect(() => {
         if (songs.length === 0) {
@@ -13,7 +12,7 @@ const Cards = ({songs}) => {
                     color: "white",
                 }
             });
-            // return;
+            return;
         }
     }, [songs]);
 
