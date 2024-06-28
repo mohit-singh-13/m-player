@@ -11,14 +11,13 @@ const Login = () => {
     useEffect(() => {
         async function authentication() {
             if (await authenticate()) {
-                setBtn("login");
-            } else {
                 navigation("/");
+            } else {
+                setBtn("login");
             }
         }
 
         authentication();
-
     }, [btn]);
 
     return (

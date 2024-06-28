@@ -11,9 +11,9 @@ const Signup = () => {
     useEffect(() => {
         async function authentication() {
             if (await authenticate()) {
-                setBtn("signup");
-            } else {
                 navigation("/");
+            } else {
+                setBtn("signup");
             }
         }
 
