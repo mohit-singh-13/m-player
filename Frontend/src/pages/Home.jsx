@@ -18,14 +18,9 @@ const Home = () => {
 
     const authenticate = async() => {
         const URL = import.meta.env.VITE_AUTHENTICATE_URL;
-        
-        const token = document.cookie.substring(6);
 
         const response = await axios.get(URL, {
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": `Bearer ${token}`
-            }
+            withCredentials: true
         });
 
         if (response?.data?.success) {
