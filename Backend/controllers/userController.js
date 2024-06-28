@@ -96,7 +96,7 @@ exports.signup = async (request, response) => {
 }
 
 exports.logout = (request, response) => {
-    return response.cookie("token", "").json({
+    return response.clearCookie("token").json({
         success: true
     })
 }
