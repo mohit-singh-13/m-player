@@ -19,11 +19,11 @@ const Home = () => {
     useEffect(() => {
         async function authentication() {
             if (await authenticate()) {
-                setLogin(false);
+                setLogin(true);
     
                 fetchingSongs();
             } else {
-                setLogin(true);
+                setLogin(false);
                 navigation("/login");
             }
         }
