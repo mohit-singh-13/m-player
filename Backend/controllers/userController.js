@@ -32,8 +32,9 @@ exports.login = async (request, response) => {
 
             const options = {
                 expires: new Date(Date.now() + 60*60*1000),
-                // httpOnly: true,
-                secure: true
+                httpOnly: true,
+                secure: true,
+                sameSite: "None"
             }
 
             return response.cookie("token", token, options).json({

@@ -25,7 +25,6 @@ export const fetchSongs = async (term) => {
         const URL = `${baseUrl}&term=${term}`;
 
         const response = await axios.get(URL);
-        // console.log(response);
 
         return response.data;
 
