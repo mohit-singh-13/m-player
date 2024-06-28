@@ -7,7 +7,7 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Cards from "../components/Cards";
 import Spinner from "../components/Spinner";
-import axios from "axios";
+import authenticate from "../utils/authenticate";
 
 const Home = () => {
     const { login, navigation, term, setTerm, setLogin } = useContext(AppContext);
@@ -16,24 +16,19 @@ const Home = () => {
 
     const [allSongs, setAllSongs] = useState([]);
 
-    const authenticate = async() => {
-        const URL = import.meta.env.VITE_AUTHENTICATE_URL;
-
-        const response = await axios.get(URL, {
-            withCredentials: true
-        });
-
-        if (response?.data?.success) {
-            setLogin(true);
-
-            fetchingSongs();
-        } else {
-            navigation("/login");
-        }
-    }
-
     useEffect(() => {
-        authenticate();
+        async function authentication() {
+            if (await authenticate()) {
+                setLogin(true);
+    
+                fetchingSongs();
+            } else {
+                navigation("/login");
+            }
+        }
+
+        authentication();
+
     }, [term, login]);
 
     const fetchingSongs = async () => {
