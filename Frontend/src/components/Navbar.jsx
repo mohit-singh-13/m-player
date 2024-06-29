@@ -49,7 +49,7 @@ const Navbar = ({btn}) => {
                         </Typography>
                         {
                             btn &&
-                            <button onClick={clickHandler} className='px-[20px] py-[10px] rounded-md uppercase bg-white font-semibold text-[#3f51b5] border-solid border-[1px] border-[#3f51b5] hover:bg-[#3f51b5] hover:text-white transition-all duration-200'>{btn}</button>
+                            <button onClick={clickHandler} className='px-[20px] py-[10px] rounded-md uppercase bg-white font-semibold text-[#3f51b5] border-solid border-[1px] border-[#3f51b5] hover:bg-[#3f51b5] hover:text-white transition-all duration-200 max-sm:px-[10px] max-sm:py-[5px] max-sm:text-[0.6rem]'>{btn}</button>
 
                         }
                     </Toolbar>

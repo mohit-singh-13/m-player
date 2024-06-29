@@ -98,7 +98,7 @@ const Form = ({ flag, btn }) => {
     }
 
     return (
-        <div className="w-[650px] mx-auto flex flex-col h-[70vh] justify-center gap-[1rem]">
+        <div className="w-11/12 max-w-[650px] mx-auto flex flex-col h-[70vh] justify-center gap-[1rem]">
             <Box
                 component="form"
                 sx={{
@@ -166,7 +166,9 @@ const Form = ({ flag, btn }) => {
                     }
                 </div>
             </Box>
-            <Button variant="contained" onClick={clickHandler} size="large">{btn}</Button>
+            <div className='flex flex-col'>
+                <Button variant="contained" onClick={clickHandler} size="large">{btn}</Button>
+            </div>
         </div>
     )
 }

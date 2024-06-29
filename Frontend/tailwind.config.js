@@ -7,6 +7,9 @@ export default {
         nigerian: ["Mukta"]
       }
     },
+    screens: {
+      'max-sm': { 'max': '430px' },
+    }
   },
   plugins: [],
 }
